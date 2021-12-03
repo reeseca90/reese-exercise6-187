@@ -1,0 +1,74 @@
+// AUTHOR: Craig Reese
+// COURSE: CPT187
+// PURPOSE: Adds a record to the order file for each order made by the customer, also tracks number of orders made
+// CREATEDATE: 23 Nov 2021
+
+package edu.cpt187.reese.exercise6;
+
+// import necessary classes
+import java.io.PrintWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
+// start of class WriteOrder
+public class WriteOrder 
+{
+	// declare class variables
+	private boolean fileFoundFlag = false;
+	private String masterFileName = "";
+	private int recordCount = 0;
+	
+	// constructor
+	WriteOrder(String borrowedFileName)
+	{
+		masterFileName = borrowedFileName;
+	} // end of constructor
+	
+	// setters
+	// method to write a record to the specified file
+	public void setWriteOrder(int borrowedItemID, String borrowedItemName, double borrowedItemPrice, int borrowedQuantity, double borrowedOrderCost) 
+	{
+		try // try creating file and writing contents
+		{
+			// create new PrintWriter using a new FileWriter to open the file or create if it doesn't exist
+			// then write to the file, appending new records to it
+			PrintWriter filePW = new PrintWriter(new FileWriter(masterFileName, true));
+			
+			// set file found flag to true if the file was found or created
+			fileFoundFlag = true;
+			
+			// write borrowed values separated by tabs to file as a new record
+			filePW.printf("%n%d\t%s\t%f\t%d\t%f", borrowedItemID, borrowedItemName, borrowedItemPrice, borrowedQuantity, borrowedOrderCost);
+			
+			// increment record count
+			recordCount++;
+			
+			// close file
+			filePW.close();
+		} // end of try to create file and write contents
+		catch (IOException ex)// catch to catch exceptions while creating and writing file
+		{
+			fileFoundFlag = false;
+		} // end of catch 
+	} // end of setWriteOrder
+	
+	// getters
+	// method to return the file found flag
+	public boolean getFileFoundFlag() 
+	{
+		return fileFoundFlag;
+	} // end of getFileFoundFlag
+	
+	// method to return the file name
+	public String getFileName() 
+	{
+		return masterFileName;
+	} // end of getFileName()
+	
+	// method to return the record count
+	public int getRecordCount() 
+	{
+		return recordCount;
+	} // end of getRecordCount()
+	
+} // end of class WriteOrder
